@@ -25,7 +25,7 @@ Actor_Lr=5e-4
 Critic_Lr=5e-6
 
 deepspeed --master_port 12346 main.py \
-   --data_path Dahoas/rm-static \
+   --data_path ../../Dahoas/rm-static \
    --data_split 2,4,4 \
    --actor_model_name_or_path $ACTOR_MODEL_PATH \
    --critic_model_name_or_path $CRITIC_MODEL_PATH \
@@ -44,7 +44,7 @@ deepspeed --master_port 12346 main.py \
    --num_warmup_steps 100 \
    --deepspeed --seed 1234 \
    --enable_hybrid_engine \
-   --inference_tp_size 2 \
+   --inference_tp_size 1 \
    --actor_zero_stage $ACTOR_ZERO_STAGE \
    --critic_zero_stage $CRITIC_ZERO_STAGE \
    --actor_gradient_checkpointing \
