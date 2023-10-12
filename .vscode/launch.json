@@ -137,7 +137,7 @@
                 "--deepspeed", 
                 "--seed", "1234",
                 "--enable_hybrid_engine",
-                "--inference_tp_size", "2", 
+                "--inference_tp_size", "1", 
                 "--actor_zero_stage", "3", 
                 "--critic_zero_stage", "3", 
                 "--actor_gradient_checkpointing",
