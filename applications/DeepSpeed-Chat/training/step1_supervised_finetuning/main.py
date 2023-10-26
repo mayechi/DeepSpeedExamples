@@ -258,7 +258,7 @@ def main():
                                  collate_fn=default_data_collator,
                                  sampler=eval_sampler,
                                  batch_size=args.per_device_eval_batch_size)
-
+    
     def evaluation(model, eval_dataloader):
         model.eval()
         losses = 0
@@ -288,7 +288,7 @@ def main():
     optimizer = AdamOptimizer(optimizer_grouped_parameters,
                               lr=args.learning_rate,
                               betas=(0.9, 0.95))
-
+    
     num_update_steps_per_epoch = math.ceil(
         len(train_dataloader) / args.gradient_accumulation_steps)
     lr_scheduler = get_scheduler(
@@ -297,7 +297,7 @@ def main():
         num_warmup_steps=args.num_warmup_steps,
         num_training_steps=args.num_train_epochs * num_update_steps_per_epoch,
     )
-
+    
     model, optimizer, _, lr_scheduler = deepspeed.initialize(
         model=model,
         optimizer=optimizer,
@@ -308,14 +308,14 @@ def main():
 
     if args.gradient_checkpointing:
         model.gradient_checkpointing_enable()
-
+    
     # Train!
     print_rank_0("***** Running training *****", args.global_rank)
-    print_rank_0(
-        f"***** Evaluating perplexity, Epoch {0}/{args.num_train_epochs} *****",
-        args.global_rank)
-    perplexity = evaluation(model, eval_dataloader)
-    print_rank_0(f"ppl: {perplexity}", args.global_rank)
+    # print_rank_0(
+    #     f"***** Evaluating perplexity, Epoch {0}/{args.num_train_epochs} *****",
+    #     args.global_rank)
+    # perplexity = evaluation(model, eval_dataloader)
+    # print_rank_0(f"ppl: {perplexity}", args.global_rank)
 
     for epoch in range(args.num_train_epochs):
         print_rank_0(

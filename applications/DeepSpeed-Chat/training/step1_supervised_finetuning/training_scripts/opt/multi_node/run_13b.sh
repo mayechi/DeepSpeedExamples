@@ -13,7 +13,9 @@ if [ "$ZERO_STAGE" == "" ]; then
 fi
 mkdir -p $OUTPUT
 
-deepspeed main.py \
+HF_DATASETS_OFFLINE=1
+TRANSFORMERS_OFFLINE=1
+deepspeed --hostfile=../hostfile main.py \
    --data_path ../../Dahoas/rm-static ../../Dahoas/full-hh-rlhf ../../Dahoas/synthetic-instruct-gptj-pairwise ../../yitingxie/rlhf-reward-datasets \
    --data_split 2,4,4 \
    --model_name_or_path ../../facebook/opt-13b \
@@ -31,6 +33,7 @@ deepspeed main.py \
    --zero_stage $ZERO_STAGE \
    --lora_dim 128 \
    --lora_module_name decoder.layers. \
+   --print_loss \
    --deepspeed \
    --output_dir $OUTPUT \
    &> $OUTPUT/training.log &

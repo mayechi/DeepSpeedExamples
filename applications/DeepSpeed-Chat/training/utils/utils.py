@@ -56,14 +56,11 @@ def get_tokenizer(model_name_or_path, fast_tokenizer=True):
             tokenizer.add_special_tokens({'pad_token': '[PAD]'})
             tokenizer.padding_side = 'right'
     else:
-        # print("model_name_or_path:", model_name_or_path)
-        # pdb.set_trace()
         tokenizer = AutoTokenizer.from_pretrained(
             model_name_or_path, fast_tokenizer=fast_tokenizer)
         tokenizer.pad_token = tokenizer.eos_token
         # make sure tokenizer is right pad in our logic
         tokenizer.padding_side = 'right'
-    print("tokenizer:", tokenizer)
     return tokenizer
 
 

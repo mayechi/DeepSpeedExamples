@@ -287,14 +287,14 @@ def main():
 
     num_update_steps_per_epoch = math.ceil(
         len(train_dataloader) / args.gradient_accumulation_steps)
-
+    
     lr_scheduler = get_scheduler(
         name=args.lr_scheduler_type,
         optimizer=optimizer,
         num_warmup_steps=args.num_warmup_steps,
         num_training_steps=args.num_train_epochs * num_update_steps_per_epoch,
     )
-
+    
     rm_model, optimizer, _, lr_scheduler = deepspeed.initialize(
         model=rm_model,
         optimizer=optimizer,
@@ -309,13 +309,13 @@ def main():
     # Train!
     print_rank_0("***** Running training *****", args.global_rank)
 
-    print_rank_0(
-        f"***** Evaluating reward, Epoch {0}/{args.num_train_epochs} *****",
-        args.global_rank)
-    reward_score, acc = evaluation_reward(rm_model, eval_dataloader)
-    print_rank_0(
-        f"chosen_last_scores (higher is better) : {reward_score}, acc (higher is better) : {acc}",
-        args.global_rank)
+    # print_rank_0(
+    #     f"***** Evaluating reward, Epoch {0}/{args.num_train_epochs} *****",
+    #     args.global_rank)
+    # reward_score, acc = evaluation_reward(rm_model, eval_dataloader)
+    # print_rank_0(
+    #     f"chosen_last_scores (higher is better) : {reward_score}, acc (higher is better) : {acc}",
+    #     args.global_rank)
 
     for epoch in range(args.num_train_epochs):
         print_rank_0(
